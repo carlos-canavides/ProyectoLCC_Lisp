@@ -36,6 +36,9 @@
 (DEFUN sumaPrimosAux (number previous n)
     (COND
         (
+            (EQUAL number divisor) T
+        )
+        (
             (> previous number) 0   ;previous ya no es un valor que se encuantra entre 0 y el numero.
         )
         (
