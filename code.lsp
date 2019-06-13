@@ -1,30 +1,37 @@
-;; ---- EJERCICIO 1 ----
+;;;; ---- EJERCICIO 1 ----
 
-;; TRANS retorna la traspuesta de una matriz, o NIL si la matriz no tiene elementos
+;;; TRANS retorna la traspuesta de una matriz, o NIL si la matriz no tiene elementos
 
 (DEFUN trans (matrix)
+    ;; Se genera una lista con la primer columna de la matriz
+    ;; seguida de la transpuesta de la matriz sin su primer columna
     (if matrix
         (CONS (firstColumn matrix) (trans (butFirst matrix)))
     )
 )
 
-;; FIRSTCOLUMN retorna, como lista, la primera columna de la matriz dada
+;;; FIRSTCOLUMN retorna, como lista, la primera columna de la matriz dada
 
 (DEFUN firstColumn (matrix) 
+    ;; Se genera una lista con el primer elemento de la la primer fila de la matriz
+    ;; seguido de el primer elemento de la fila siguiente (o de la matriz sin su primer fila)
     (if matrix
         (CONS (CAAR matrix) (firstColumn (CDR matrix)))
     )
 )
 
-;; BUTFIRST retorna una copia de la matriz dada pero sin su primera columna
+;;; BUTFIRST retorna una copia de la matriz dada pero sin su primera columna
 
 (DEFUN butFirst (matrix)
+    ;; Se genera una lista con los elementos siguientes al primero de la primer
+    ;; fila de la matriz, seguido de los elementos siguientes al primero de la siguiente fila
+    ;; de la matriz (o de la matriz sin su primer fila)
     (if (and matrix (CDAR matrix))
         (CONS (CDAR matrix) (butFirst (CDR matrix)))
     )
 )
 
-;; ---- EJERCICIO 2 ----
+;;;; ---- EJERCICIO 2 ----
 
 ;; isPrime/3
 ;; Retorna T (true) si el numero pasado como parametro es primo (no tiene un divisor entre 2 y stop).
