@@ -13,12 +13,12 @@
 )
 
 
-
-;; isPrimeAux/3
-;; Retorna T (true) si el numero pasado como parametro no tiene un divisor entre 2 y stop.
-;; Retorna NIL (false) si el numero pasado como parametro tiene al menos 1 divisor entre 2 y stop.
-;; Si el numero es "2" no se considera que tiene como divisor a si mismo.
-(DEFUN isPrimeAux (number divisor stop)
+;; isPrime/3
+;; Retorna T (true) si el numero pasado como parametro es primo (no tiene un divisor entre 2 y stop).
+;; Retorna NIL (false) si el numero pasado como parametro no es primo (tiene al menos 1 divisor entre 2 y stop).
+;; Para determinar si un numero es primo, debemos asegurarnos que ningun valor entre 2 y su raiz cuadrada lo divida.
+;; OBS : si "numero=2" no se considera que se tenga como divisor a si mismo.
+(DEFUN isPrime (number divisor stop)
     (COND
         (
             (OR (EQUAL number divisor) (> divisor stop)) T
@@ -29,20 +29,11 @@
             ; El numero pasado como parametro no es primo, ya que "divisor" lo divide.
         )
         (
-            (< divisor stop) (isPrimeAux number (+ divisor 1) stop)
-            ; Si el divisor es menor al tope de busqueda continuo analizando al numero.
+            (< divisor stop) (isPrime number (+ divisor 1) stop)
+            ; Si el divisor es menor al tope de busqueda, actualizo su valor y continuo el analisis.
         )
     )
 )
-
-;; isPrime/1
-;; Retorna T (true) si es numero pasado como parametro es primo.
-;; Retorna NIL (false) si el numero pasado como parametro no es primo.
-;; Utiliza la funcion auxiliar isPrimeAux pasandole como parametro el numero y su raiz cuadrada.
-;; Esto se debe a que para determinar si un numero es primo, debemos asegurarnos que ningun valor
-;; entre 2 y su raiz cuadrada lo divida.
-(DEFUN isPrime (number) (isPrimeAux number 2 (sqrt number)))
-
 
 ;; sumaPrimosAux/3
 ;; Retorna la suma de numeros primos entre 0 y el numero pasado como parametro.
@@ -55,8 +46,8 @@
             (> previous number) 0   ;previous ya no es un valor que se encuantra entre 0 y el numero.
         )
         (
-            (isPrime previous) (+ previous (sumaPrimosAux number (+ 1 (* 2 n)) (+ n 1)))
-            ; Si previous es un numero primo entonces debe incluido en la sumatoria.
+            (isPrime previous 2 (sqrt previous)) (+ previous (sumaPrimosAux number (+ 1 (* 2 n)) (+ n 1)))
+            ; Si previous es un numero primo entonces debe ser ncluido en la sumatoria.
             ; Llamada recuriva considerando a previous como (2*n)+1
         )
         (
