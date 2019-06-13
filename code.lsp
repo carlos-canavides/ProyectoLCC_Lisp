@@ -1,17 +1,30 @@
-(DEFUN getFirstColumn (matrix)
-    (COND
-        (
-            (NULL matrix) '()
-        )
-        (
-            T
-                (LET ((FirstElem (CAR (CAR matrix))))
-                    (CONS FirstElem (getFirstColumn (CDR matrix)))
-                )
-        )
+;; ---- EJERCICIO 1 ----
+
+;; TRANS retorna la traspuesta de una matriz, o NIL si la matriz no tiene elementos
+
+(DEFUN trans (matrix)
+    (if matrix
+        (CONS (firstColumn matrix) (trans (butFirst matrix)))
     )
 )
 
+;; FIRSTCOLUMN retorna, como lista, la primera columna de la matriz dada
+
+(DEFUN firstColumn (matrix) 
+    (if matrix
+        (CONS (CAAR matrix) (firstColumn (CDR matrix)))
+    )
+)
+
+;; BUTFIRST retorna una copia de la matriz dada pero sin su primera columna
+
+(DEFUN butFirst (matrix)
+    (if (and matrix (CDAR matrix))
+        (CONS (CDAR matrix) (butFirst (CDR matrix)))
+    )
+)
+
+;; ---- EJERCICIO 2 ----
 
 ;; isPrime/3
 ;; Retorna T (true) si el numero pasado como parametro es primo (no tiene un divisor entre 2 y stop).
