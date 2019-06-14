@@ -97,3 +97,69 @@
 (write (sumaPrimos 8))
 (write (sumaPrimos 9))
 (write (sumaPrimos 10))
+
+;;;; ---- EJERCICIO 4 ----
+
+;;; PERM obtiene todas las permuaciones de una lista en el orden lexicografico
+
+(DEFUN perm (listt)
+    (permute listt listt)
+)
+
+;;; PERMUTE obtiene todas las permutaciones de una lista en el orden lexicografico.
+;;; Requiere como segundo argumento una copia de la lista original.
+
+(DEFUN permute (listt leftToPerm)
+    (LET ( (next (CAR leftToPerm)) )
+    ;; Next sera el proximo elemento en la lista que hay que remover y 
+    ;; añadir al comienzo de todas las permutaciones de todos los elementos sin next
+        (COND 
+            ;; Evaluamos si la lista a permutar tiene uno o mas elementos
+            ((AND (CDR listt) leftToPerm)
+                ;; Si la lista tiene mas de un elemento, todas las permutaciones posibles seran
+                ;; una lista que contiene a cada elemento de la lista como primer elemento
+                ;; de las permutaciones de los restantes elementos
+                (APPEND
+                    ;; Obtenemos las permutaciones de la lista sin un elemento y luego a estas
+                    ;; agregamos el elemento removido
+                    (addFirstAll next (permute (removeOnce next listt) (removeOnce next listt)))
+                    ;; Concatenamos con las permutacions restantes de la lista
+                    (permute listt (CDR leftToPerm))) 
+            )
+            
+            ((AND (CAR listt) leftToPerm)
+                ;; Si la lista tiene un solo elemento, todas las permutaciones posibles
+                ;; son una unica lista conteniendo a ese elemento
+                (LIST listt)
+            )
+            
+        )    
+    )
+    
+)
+
+;; ADDFIRSTALL añade el elemento dado como primer elemento de todas las listas pertenecientes
+;; a una lista contenedora que es recibida como segundo argumento
+
+(DEFUN addFirstAll (element listt)
+    (AND listt 
+        ;; Si la lista contenedora no es vacia entonces añade el elemento a la primera lista y continua 
+        (CONS (CONS element (CAR listt)) (addFirstAll element (CDR listt))))
+)
+
+;;; REMOVEONCE elimina la primera aparicion en una lista del elemento dado. Si el elemento no se encuentra
+;;; en la lista, simplemente se retorna la lista intacta
+
+(DEFUN removeOnce (element listt)
+    ;; Verifica que la lista no sea vacia, y si la cabeza de esta es igual o distinta al elemento
+    (COND
+        ((AND listt (EQUAL element (CAR listt)))
+            ;; Si la lista no es vacia y el elemento es igual a la cabeza de la lista
+            (CDR listt)
+        )
+        (listt
+            ;; Si la lista no es vacia y el elemento es distinta a la cabeza de la lista
+            (CONS (CAR listt) (removeOnce element (CDR listt)))
+        )
+    )
+)
