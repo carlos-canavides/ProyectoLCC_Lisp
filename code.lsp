@@ -36,7 +36,7 @@
 
 ;;; SUMAPRIMOS retorna la suma de numeros primos entre 0 y el numero pasado como parametro.
 
-(DEFUN sumaPrimos (number) 
+(DEFUN sumaPrimos (number)
     (COND
         ((< number 2)
             ;; Si el numero es menor a 2 la suma total es 0
@@ -46,7 +46,7 @@
             ;; Si es par comenzamos desde el numero impar previo
             (sumaPrimosAux (1- number))
         )
-        (T 
+        (T
             (sumaPrimosAux number)
         )
     )
@@ -54,22 +54,29 @@
 
 ;;; SUMAPRIMOSAUX retorna la suma de numeros primos entre 0 y el numero pasado como parametro.
 ;;; Se asume que number es 2 o un numero impar mayor a 2
+;;; Solo se analizan los numeros impares, ya que son candidatos a ser primos.
+;;; OBS : la secuencia de suma comienza desde el numero primo mas grande al numero primo mas chico,
+;;; que se encuentran entre 0 y number.
 
 (DEFUN sumaPrimosAux (number)
-    (COND 
-        ((AND (> number 2) (isPrime number 2 (sqrt number))) ; Basta verificar divisores entre 2 y la raiz del numero
-            ;; Si es mayor a 2 y primo, la suma total sera el numero mas los primos que haya
-            ;; entre el y 0
+    (COND
+        ((AND (> number 2) (isPrime number 2 (sqrt number))) ; Basta con verificar divisores entre 2 y la raiz cuadrada del numero
+            ;; Si es mayor a 2 y primo, el resultado sera el numero mas los primos que haya
+            ;; entre number y 0.
             (+ number (sumaPrimosAux (- number 2)))
+            ;; Dado que estamos en la busqueda de numeros primos no tiene sentido analizar los numeros que son pares (mayores a 2)
+            ;; ya que no son primos. Al restarle 2 a number, salteamos el analisis de un numero par.
         )
-        
+
         ((> number 2)
             ;; Si es mayor a 2 y no es primo, la suma total sera la suma de los primos que haya entre
-            ;; el y 0
+            ;; number y 0
             (sumaPrimosAux (- number 2))
+            ;; Al restarle 2 a number, salteamos el analisis de un numero par.
         )
         (T
             ;; Si no es mayor a 2 entonces la suma total es 2
+            ;; Se alcanza el final de la sumatoria de numeros primos.
             2
         )
     )
@@ -80,21 +87,20 @@
 ;;; OBS : si "numero=2" no se considera que se tenga como divisor a si mismo.
 (DEFUN isPrime (number divisor stop)
     (COND
-        ((OR (EQUAL number divisor) (> divisor stop)) 
+        ((OR (EQUAL number divisor) (> divisor stop))
             ;; No se encontraron divisores del numero por lo tanto es primo.
             T
         )
-        ((ZEROP (mod number divisor)) 
+        ((ZEROP (mod number divisor))
             ;; El numero pasado como parametro no es primo, ya que "divisor" lo divide.
             NIL
         )
-        ((< divisor stop) 
+        ((< divisor stop)
             ;; Si el divisor es menor al tope de busqueda, actualizo su valor y continuo el analisis.
             (isPrime number (+ divisor 1) stop)
         )
     )
 )
-
 
 
 
@@ -124,9 +130,9 @@
 
 (DEFUN permute (listt leftToPerm)
     (LET ( (next (CAR leftToPerm)) )
-    ;; Next sera el proximo elemento en la lista que hay que remover y 
+    ;; Next sera el proximo elemento en la lista que hay que remover y
     ;; añadir al comienzo de todas las permutaciones de todos los elementos sin next
-        (COND 
+        (COND
             ;; Evaluamos si la lista a permutar tiene uno o mas elementos
             ((AND (CDR listt) leftToPerm)
                 ;; Si la lista tiene mas de un elemento, todas las permutaciones posibles seran
@@ -137,26 +143,26 @@
                     ;; agregamos el elemento removido
                     (addFirstAll next (permute (removeOnce next listt) (removeOnce next listt)))
                     ;; Concatenamos con las permutacions restantes de la lista
-                    (permute listt (CDR leftToPerm))) 
+                    (permute listt (CDR leftToPerm)))
             )
-            
+
             ((AND (CAR listt) leftToPerm)
                 ;; Si la lista tiene un solo elemento, todas las permutaciones posibles
                 ;; son una unica lista conteniendo a ese elemento
                 (LIST listt)
             )
-            
-        )    
+
+        )
     )
-    
+
 )
 
 ;; ADDFIRSTALL añade el elemento dado como primer elemento de todas las listas pertenecientes
 ;; a una lista contenedora que es recibida como segundo argumento
 
 (DEFUN addFirstAll (element listt)
-    (AND listt 
-        ;; Si la lista contenedora no es vacia entonces añade el elemento a la primera lista y continua 
+    (AND listt
+        ;; Si la lista contenedora no es vacia entonces añade el elemento a la primera lista y continua
         (CONS (CONS element (CAR listt)) (addFirstAll element (CDR listt))))
 )
 
