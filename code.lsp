@@ -31,6 +31,7 @@
     )
 )
 
+
 ;;;; ---- EJERCICIO 2 ----
 
 
@@ -103,21 +104,8 @@
 )
 
 
-
-;;;; Test
-(write (sumaPrimos 0))
-(write (sumaPrimos 1))
-(write (sumaPrimos 2))
-(write (sumaPrimos 3))
-(write (sumaPrimos 4))
-(write (sumaPrimos 5))
-(write (sumaPrimos 6))
-(write (sumaPrimos 7))
-(write (sumaPrimos 8))
-(write (sumaPrimos 9))
-(write (sumaPrimos 10))
-
 ;;;; ---- EJERCICIO 3 ----
+
 
 ;;; PERM obtiene todas las permuaciones de una lista en el orden lexicografico
 
