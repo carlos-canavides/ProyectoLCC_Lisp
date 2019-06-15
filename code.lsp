@@ -31,7 +31,6 @@
     )
 )
 
-
 ;;;; ---- EJERCICIO 2 ----
 
 
@@ -103,11 +102,9 @@
     )
 )
 
-
 ;;;; ---- EJERCICIO 3 ----
 
-
-;;; PERMlEX obtiene todas las permuaciones de una lista en el orden lexicografico
+;;; PERM obtiene todas las permuaciones de una lista en el orden lexicografico
 
 (DEFUN permLex (listt)
     (permute listt listt)
