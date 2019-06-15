@@ -104,7 +104,7 @@
 
 ;;;; ---- EJERCICIO 3 ----
 
-;;; PERM obtiene todas las permuaciones de una lista en el orden lexicografico
+;;; PERMLEX obtiene todas las permuaciones de una lista en el orden lexicografico
 
 (DEFUN permLex (listt)
     (permute listt listt)
