@@ -5,8 +5,10 @@
 (DEFUN trans (matrix)
     ;; Se genera una lista con la primer columna de la matriz
     ;; seguida de la transpuesta de la matriz sin su primer columna
-    (if matrix
-        (CONS (firstColumn matrix) (trans (butFirst matrix)))
+    (COND 
+        (matrix
+            (CONS (firstColumn matrix) (trans (butFirst matrix)))
+        ) 
     )
 )
 
@@ -15,8 +17,10 @@
 (DEFUN firstColumn (matrix)
     ;; Se genera una lista con el primer elemento de la la primer fila de la matriz
     ;; seguido de el primer elemento de la fila siguiente (o de la matriz sin su primer fila)
-    (if matrix
-        (CONS (CAAR matrix) (firstColumn (CDR matrix)))
+    (COND 
+        (matrix
+            (CONS (CAAR matrix) (firstColumn (CDR matrix)))
+        ) 
     )
 )
 
@@ -26,8 +30,10 @@
     ;; Se genera una lista con los elementos siguientes al primero de la primer
     ;; fila de la matriz, seguido de los elementos siguientes al primero de la siguiente fila
     ;; de la matriz (o de la matriz sin su primer fila)
-    (if (and matrix (CDAR matrix))
-        (CONS (CDAR matrix) (butFirst (CDR matrix)))
+    (COND 
+        ((and matrix (CDAR matrix))
+            (CONS (CDAR matrix) (butFirst (CDR matrix)))
+        ) 
     )
 )
 
